@@ -1,12 +1,12 @@
 #name of container: docker-tor-exit-relay
-#versison of container: 0.5.4
+#versison of container: 0.5.5
 FROM quantumobject/docker-baseimage:15.04
 MAINTAINER Angel Rodriguez  "angel@quantumobject.com"
 
 #add repository and update the container
 #Installation of nesesary package/software for this containers...
-RUN echo "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc)-backports main restricted " >> /etc/apt/sources.list
-RUN echo "deb http://deb.torproject.org/torproject.org $(lsb_release -sc) main" >> /etc/apt/sources.list
+RUN echo "deb http://archive.ubuntu.com/ubuntu `cat /etc/container_environment/DISTRIB_CODENAME`-backports main restricted " >> /etc/apt/sources.list
+RUN echo "deb http://deb.torproject.org/torproject.org `cat /etc/container_environment/DISTRIB_CODENAME` main" >> /etc/apt/sources.list
 RUN gpg --keyserver keys.gnupg.net --recv 886DDD89 \
           &&  gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | DEBIAN_FRONTEND=noninteractive apt-key add -
 RUN apt-get update && apt-get install -y -q tor \
@@ -26,27 +26,25 @@ COPY startup.sh /etc/my_init.d/startup.sh
 RUN chmod +x /etc/my_init.d/startup.sh
 
 ##Adding Deamons to containers
-RUN mkdir /etc/service/tor
+RUN mkdir -p /etc/service/tor /var/log/tor ; sync
+RUN mkdir -p /etc/service/tor/log
 COPY tor.sh /etc/service/tor/run
-RUN chmod +x /etc/service/tor/run
-
-RUN mkdir /etc/service/sshd
+COPY tor-log.sh /etc/service/tor/log/run 
+RUN chmod +x /etc/service/tor/run /etc/service/tor/log/run \
+     && cp /var/log/cron/config /var/log/tor/
+     
+RUN mkdir -p /etc/service/sshd /var/log/sshd ; sync 
+RUN mkdir -p /etc/service/sshd/log
 COPY sshd.sh /etc/service/sshd/run
-RUN chmod +x /etc/service/sshd/run
-
-#pre-config scritp for different service that need to be run when container image is create 
-#maybe include additional software that need to be installed ... with some service running ... like example mysqld
-COPY pre-conf.sh /sbin/pre-conf
-RUN chmod +x /sbin/pre-conf \
-    && /bin/bash -c /sbin/pre-conf \
-    && rm /sbin/pre-conf
+COPY sshd-log.sh /etc/service/sshd/log/run
+RUN chmod +x /etc/service/sshd/run /etc/service/sshd/log/run \
+    && cp /var/log/cron/config /var/log/sshd         
 
 ##scritp that can be running from the outside using docker-bash tool ...
 ## for example to create backup for database with convitation of VOLUME   dockers-bash container_ID backup_mysql
 COPY backup.sh /sbin/backup
 RUN chmod +x /sbin/backup
 VOLUME /var/backups
-
 
 #add files and script that need to be use for this container
 #include conf file relate to service/daemon 
