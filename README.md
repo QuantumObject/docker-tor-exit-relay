@@ -28,7 +28,6 @@ This container will generate dsa key for ssh the first time it is run , you need
 To access it and configured and used the container :
 
     $ docker exec -it container-id /bin/bash
-    $ export TERM=xterm       #needed to execute some command correctly (nano,top)
 
 Them you can use it by torify command
 
@@ -56,7 +55,7 @@ To help improve this container [docker-tor-exit-relay][5]
 
 [Tor Exit Guidelines][7]
 
-For additional info about us and our projects check our site [www.quantumobject.com][8]
+For additional info about us and our projects check our site [www.quantumobject.org][8]
 
 [1]:https://www.torproject.org
 [2]:https://www.docker.com
@@ -65,4 +64,4 @@ For additional info about us and our projects check our site [www.quantumobject.
 [5]:https://github.com/QuantumObject/docker-tor-exit-relay
 [6]:https://www.torproject.org/docs/faq.html.en
 [7]:https://trac.torproject.org/projects/tor/wiki//doc/TorExitGuidelines
-[8]:http://www.quantumobject.com/
+[8]:https://www.quantumobject.org/
