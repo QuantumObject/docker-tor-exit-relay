@@ -1,5 +1,5 @@
 #name of container: docker-tor-exit-relay
-#versison of container: 0.5.5
+#versison of container: 0.5.6
 FROM quantumobject/docker-baseimage:15.04
 MAINTAINER Angel Rodriguez  "angel@quantumobject.com"
 
@@ -27,17 +27,13 @@ RUN chmod +x /etc/my_init.d/startup.sh
 
 ##Adding Deamons to containers
 RUN mkdir -p /etc/service/tor /var/log/tor ; sync
-RUN mkdir -p /etc/service/tor/log
 COPY tor.sh /etc/service/tor/run
-COPY tor-log.sh /etc/service/tor/log/run 
-RUN chmod +x /etc/service/tor/run /etc/service/tor/log/run \
+RUN chmod +x /etc/service/tor/run \
      && cp /var/log/cron/config /var/log/tor/
      
 RUN mkdir -p /etc/service/sshd /var/log/sshd ; sync 
-RUN mkdir -p /etc/service/sshd/log
 COPY sshd.sh /etc/service/sshd/run
-COPY sshd-log.sh /etc/service/sshd/log/run
-RUN chmod +x /etc/service/sshd/run /etc/service/sshd/log/run \
+RUN chmod +x /etc/service/sshd/run \
     && cp /var/log/cron/config /var/log/sshd         
 
 ##scritp that can be running from the outside using docker-bash tool ...
