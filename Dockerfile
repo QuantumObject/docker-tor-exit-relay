@@ -1,11 +1,10 @@
 #name of container: docker-tor-exit-relay
-#versison of container: 0.5.6
+#versison of container: 0.5.7
 FROM quantumobject/docker-baseimage:16.04
 MAINTAINER Angel Rodriguez  "angel@quantumobject.com"
 
-#add repository and update the container
-#Installation of nesesary package/software for this containers...
-RUN echo "deb http://archive.ubuntu.com/ubuntu `cat /etc/container_environment/DISTRIB_CODENAME`-backports main restricted " >> /etc/apt/sources.list
+# Update the container
+# Installation of nesesary package/software for this containers...
 RUN echo "deb http://deb.torproject.org/torproject.org `cat /etc/container_environment/DISTRIB_CODENAME` main" >> /etc/apt/sources.list
 RUN gpg --keyserver keys.gnupg.net --recv 886DDD89 \
           &&  gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | DEBIAN_FRONTEND=noninteractive apt-key add -
