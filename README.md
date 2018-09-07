@@ -19,7 +19,7 @@ To install docker in Ubuntu 16.04 use the commands:
 
 To run container use the command below:
 
-    $ docker run -d -p 22 -p 9050:9050 -p 9001:9001 quantumobject/docker-tor-exit-relay
+    $ docker run -d -p 22 -p 80:80 -p 9050:9050 -p 9001:9001 quantumobject/docker-tor-exit-relay
 
 This container will generate dsa key for ssh the first time it is run , you need to add the private key to your  ~/.ssh/id_dsa to be able to ssh this container. You be able to check this dsa key with command :
 
@@ -59,7 +59,7 @@ For additional info about us and our projects check our site [www.quantumobject.
 
 [1]:https://www.torproject.org
 [2]:https://www.docker.com
-[3]:https://www.torproject.org/docs/tor-relay-debian.html.en
+[3]:https://trac.torproject.org/projects/tor/wiki/TorRelayGuide
 [4]:http://docs.docker.com
 [5]:https://github.com/QuantumObject/docker-tor-exit-relay
 [6]:https://www.torproject.org/docs/faq.html.en
