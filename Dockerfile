@@ -1,18 +1,18 @@
 #name of container: docker-tor-exit-relay
-#versison of container: 0.5.7
-FROM quantumobject/docker-baseimage:16.04
+#versison of container: 0.5.8
+FROM quantumobject/docker-baseimage:18.04
 MAINTAINER Angel Rodriguez  "angel@quantumobject.com"
 
 # Update the container
 # Installation of nesesary package/software for this containers...
 RUN echo "deb http://deb.torproject.org/torproject.org `cat /etc/container_environment/DISTRIB_CODENAME` main" >> /etc/apt/sources.list
-RUN gpg --keyserver keys.gnupg.net --recv 886DDD89 \
+RUN gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 \
           &&  gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | DEBIAN_FRONTEND=noninteractive apt-key add -
-RUN apt-get update && apt-get install -y -q tor \
-                    openntpd \
+RUN apt-get update && apt-get install -y -q tor tor-arm tor-geoipdb \
+                    openntpd apt-transport-https \
                     deb.torproject.org-keyring \
                     openssh-server \
-                    lynx \
+                    lynx fail2ban \
                     && apt-get clean \
                     && rm -rf /tmp/* /var/tmp/*  \
                     && rm -rf /var/lib/apt/lists/*
@@ -33,7 +33,13 @@ RUN chmod +x /etc/service/tor/run \
 RUN mkdir -p /etc/service/sshd /var/log/sshd ; sync 
 COPY sshd.sh /etc/service/sshd/run
 RUN chmod +x /etc/service/sshd/run \
-    && cp /var/log/cron/config /var/log/sshd         
+    && cp /var/log/cron/config /var/log/sshd      
+    
+RUN mkdir -p /etc/service/fail2ban /var/log/fail2ban /var/run/fail2ban ; sync 
+COPY fail2ban.sh /etc/service/fail2ban/run
+RUN chmod +x /etc/service/fail2ban/run \
+    && touch /var/log/auth.log \
+    && cp /var/log/cron/config /var/log/fail2ban 
 
 ##scritp that can be running from the outside using docker-bash tool ...
 ## for example to create backup for database with convitation of VOLUME   dockers-bash container_ID backup_mysql
@@ -45,11 +51,13 @@ VOLUME /var/backups
 #include conf file relate to service/daemon 
 #additionsl tools to be use internally 
 COPY torrc /etc/tor/torrc
+RUN mkdir -p /var/www ; sync 
+COPY tor-exit-notice.html /var/www/tor-exit-notice.html
 RUN mkdir -p /var/run/sshd
 
 # to allow access from outside of the container  to the container service
 # at that ports need to allow access from firewall if need to access it outside of the server. 
-EXPOSE 22 9050 9001
+EXPOSE 22 9050 9001 80
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]

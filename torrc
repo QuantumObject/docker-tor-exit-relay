@@ -1,6 +1,8 @@
 
 SocksPort 9050
 ORPort 9001
+DirPort 80
+DirPortFrontPage /var/www/tor-exit-notice.html
 Nickname qotorrelay
 RelayBandwidthRate 80 KB
 RelayBandwidthBurst 100 KB
