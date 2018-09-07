@@ -33,7 +33,12 @@ RUN chmod +x /etc/service/tor/run \
 RUN mkdir -p /etc/service/sshd /var/log/sshd ; sync 
 COPY sshd.sh /etc/service/sshd/run
 RUN chmod +x /etc/service/sshd/run \
-    && cp /var/log/cron/config /var/log/sshd         
+    && cp /var/log/cron/config /var/log/sshd      
+    
+RUN mkdir -p /etc/service/fail2ban /var/log/fail2ban ; sync 
+COPY fail2ban.sh /etc/service/fail2ban/run
+RUN chmod +x /etc/service/fail2ban/run \
+    && cp /var/log/cron/config /var/log/fail2ban
 
 ##scritp that can be running from the outside using docker-bash tool ...
 ## for example to create backup for database with convitation of VOLUME   dockers-bash container_ID backup_mysql
