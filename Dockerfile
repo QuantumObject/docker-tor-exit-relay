@@ -49,7 +49,7 @@ RUN mkdir -p /var/run/sshd
 
 # to allow access from outside of the container  to the container service
 # at that ports need to allow access from firewall if need to access it outside of the server. 
-EXPOSE 22 9050 9001
+EXPOSE 22 9050 9001 80
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
