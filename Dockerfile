@@ -35,7 +35,7 @@ COPY sshd.sh /etc/service/sshd/run
 RUN chmod +x /etc/service/sshd/run \
     && cp /var/log/cron/config /var/log/sshd      
     
-RUN mkdir -p /etc/service/fail2ban /var/log/fail2ban ; sync 
+RUN mkdir -p /etc/service/fail2ban /var/log/fail2ban /var/run/fail2ban ; sync 
 COPY fail2ban.sh /etc/service/fail2ban/run
 RUN chmod +x /etc/service/fail2ban/run \
     && cp /var/log/cron/config /var/log/fail2ban
