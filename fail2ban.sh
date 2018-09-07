@@ -1,4 +1,4 @@
 
 #!/bin/sh
 
-exec /usr/bin/fail2ban-client -i start
+exec chpst -u root /usr/bin/fail2ban-client -i start
