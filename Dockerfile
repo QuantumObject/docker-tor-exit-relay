@@ -8,11 +8,11 @@ MAINTAINER Angel Rodriguez  "angel@quantumobject.com"
 RUN echo "deb http://deb.torproject.org/torproject.org `cat /etc/container_environment/DISTRIB_CODENAME` main" >> /etc/apt/sources.list
 RUN gpg --keyserver keys.gnupg.net --recv 886DDD89 \
           &&  gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | DEBIAN_FRONTEND=noninteractive apt-key add -
-RUN apt-get update && apt-get install -y -q tor \
-                    openntpd \
+RUN apt-get update && apt-get install -y -q tor tor-arm tor-geoipdb \
+                    openntpd apt-transport-https \
                     deb.torproject.org-keyring \
                     openssh-server \
-                    lynx \
+                    lynx fail2ban \
                     && apt-get clean \
                     && rm -rf /tmp/* /var/tmp/*  \
                     && rm -rf /var/lib/apt/lists/*
@@ -45,6 +45,8 @@ VOLUME /var/backups
 #include conf file relate to service/daemon 
 #additionsl tools to be use internally 
 COPY torrc /etc/tor/torrc
+RUN mkdir -p /var/www ; sync 
+COPY tor-exit-notice.html /var/www/tor-exit-notice.html
 RUN mkdir -p /var/run/sshd
 
 # to allow access from outside of the container  to the container service
