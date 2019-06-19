@@ -1,5 +1,5 @@
 #name of container: docker-tor-exit-relay
-#versison of container: 0.5.8
+#versison of container: 0.5.9
 FROM quantumobject/docker-baseimage:18.04
 MAINTAINER Angel Rodriguez  "angel@quantumobject.com"
 
