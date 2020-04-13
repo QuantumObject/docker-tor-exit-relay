@@ -19,7 +19,7 @@ To install docker in Ubuntu 18.04 use the commands:
 
 To run container use the command below:
 
-    docker run -d -p 22 -p 80:80 -p 9050:9050 -p 9001:9001 -e Nickname=Tor_Relay_Nickname --name tor quantumobject/docker-tor-exit-relay
+    docker run -d -p 22 -p 80:80 -p 9050:9050 -p 9001:9001 -e Nickname=Tor_Relay_Nickname --name tor_exit_relay quantumobject/docker-tor-exit-relay
 
 where Nickname vaule will appear in Relays publish server descriptors.
 
