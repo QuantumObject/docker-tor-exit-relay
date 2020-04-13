@@ -3,7 +3,7 @@
 FROM quantumobject/docker-baseimage:18.04
 MAINTAINER Angel Rodriguez  "angel@quantumobject.com"
 
-ENV Nickname Tor_Relay_Nickname
+ENV Nickname TorRelayNickname
 
 # Update the container
 # Installation of nesesary package/software for this containers...
