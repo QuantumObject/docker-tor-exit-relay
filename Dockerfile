@@ -1,5 +1,5 @@
 #name of container: docker-tor-exit-relay
-#versison of container: 0.5.9
+#versison of container: 0.6.0
 FROM quantumobject/docker-baseimage:18.04
 MAINTAINER Angel Rodriguez  "angel@quantumobject.com"
 
@@ -8,7 +8,7 @@ MAINTAINER Angel Rodriguez  "angel@quantumobject.com"
 RUN echo "deb http://deb.torproject.org/torproject.org `cat /etc/container_environment/DISTRIB_CODENAME` main" >> /etc/apt/sources.list
 RUN wget https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc
 RUN DEBIAN_FRONTEND=noninteractive apt-key add <A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc
-RUN apt-get update && apt-get install -y -q tor tor-arm tor-geoipdb \
+RUN apt-get update && apt-get install -y -q --no-install-recommends tor tor-arm tor-geoipdb \
                     openntpd apt-transport-https \
                     deb.torproject.org-keyring \
                     openssh-server \
@@ -40,12 +40,6 @@ COPY fail2ban.sh /etc/service/fail2ban/run
 RUN chmod +x /etc/service/fail2ban/run \
     && touch /var/log/auth.log \
     && cp /var/log/cron/config /var/log/fail2ban 
-
-##scritp that can be running from the outside using docker-bash tool ...
-## for example to create backup for database with convitation of VOLUME   dockers-bash container_ID backup_mysql
-COPY backup.sh /sbin/backup
-RUN chmod +x /sbin/backup
-VOLUME /var/backups
 
 #add files and script that need to be use for this container
 #include conf file relate to service/daemon 
