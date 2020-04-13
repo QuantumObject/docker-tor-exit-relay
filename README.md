@@ -10,8 +10,8 @@ Docker container for [Tor Exit Relay][3]
 
 To install docker in Ubuntu 18.04 use the commands:
 
-    $ sudo apt-get update
-    $ sudo wget -qO- https://get.docker.com/ | sh
+    sudo apt-get update
+    sudo wget -qO- https://get.docker.com/ | sh
 
  To install docker in other operating systems check [docker online documentation][4]
 
@@ -19,23 +19,25 @@ To install docker in Ubuntu 18.04 use the commands:
 
 To run container use the command below:
 
-    $ docker run -d -p 22 -p 80:80 -p 9050:9050 -p 9001:9001 quantumobject/docker-tor-exit-relay
+    docker run -d -p 22 -p 80:80 -p 9050:9050 -p 9001:9001 -e Nickname=Tor_Relay_Nick_name --name tor_exit_relay quantumobject/docker-tor-exit-relay
+
+where Nickname vaule will appear in Relays publish server descriptors.
 
 This container will generate dsa key for ssh the first time it is run , you need to add the private key to your  ~/.ssh/id_dsa to be able to ssh this container. You be able to check this dsa key with command :
 
-    $ docker logs container-id
+    docker logs container-id
 
 To access it and configured and used the container :
 
-    $ docker exec -it container-id /bin/bash
+    docker exec -it container-id /bin/bash
 
 Them you can use it by torify command
 
-    $ torify ssh destination
+    torify ssh destination
     
 To check if tor working correctly :
 
-    $ torify lynx https://check.torproject.org/
+    torify lynx https://check.torproject.org/
   
 To use ssh anonymous please read about limitation and security at [www.torproject.org][1]
 

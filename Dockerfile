@@ -1,7 +1,9 @@
 #name of container: docker-tor-exit-relay
-#versison of container: 0.5.9
+#versison of container: 0.6.0
 FROM quantumobject/docker-baseimage:18.04
 MAINTAINER Angel Rodriguez  "angel@quantumobject.com"
+
+ENV Nickname Tor_Relay_Nickname
 
 # Update the container
 # Installation of nesesary package/software for this containers...
@@ -40,12 +42,6 @@ COPY fail2ban.sh /etc/service/fail2ban/run
 RUN chmod +x /etc/service/fail2ban/run \
     && touch /var/log/auth.log \
     && cp /var/log/cron/config /var/log/fail2ban 
-
-##scritp that can be running from the outside using docker-bash tool ...
-## for example to create backup for database with convitation of VOLUME   dockers-bash container_ID backup_mysql
-COPY backup.sh /sbin/backup
-RUN chmod +x /sbin/backup
-VOLUME /var/backups
 
 #add files and script that need to be use for this container
 #include conf file relate to service/daemon 
